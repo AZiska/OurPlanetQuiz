@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Neucha&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Cabin+Sketch&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Fredericka+the+Great&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Chelsea+Market&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+    <title id="tabTitle">Our Planet Quiz</title>
+</head>
+
+<body>
+    <header>
+        <h1>Our Planet Quiz</h1>
+    </header>
+
+    <section id="questionContainer" class='questionContainer'>
+        <h2 id="questionTitle" class="questionTitle">Question 1:</h2>
+        <p id="questionText" class="questionText">
+            What is the biggest ocean on our planet?
+        </p>
+        <div id=answerContainer class='answerContainer'>
+            <button id="buttonA" class="answerButton">A: Indian Ocean</button>
+            <button id="buttonB" class="answerButton">B: Atlantic Ocean</button>
+            <button id="buttonC" class="answerButton">C: Pacific Ocean</button>
+            <button id="buttonD" class="answerButton">D: Antarctic Ocean</button>
+        </div>
+    </section>
+
+    <section id=gameButtonContainer class='gameButtonContainer'>
+        <button id="jokerButton" class='gameButton'>Try Again*</button>
+        <button id="nextButton" class='gameButton'>Next Question</button>
+    </section>
+
+    <section id='scoreContainer' class='scoreContainer' style='display: none'>
+        <h2 id="scoreTitle" class="scoreTitle">Your Score:</h2>
+        <div id="scoreCounterContainer" class="scoreCounterContainer">
+            <!-- Correct Answers -->
+            <div id="correctAnswers" class="score">
+                <p id="correctAnswers_text" class="score_text">Correct answers:</p>
+                <button id="correctAnswers_counter" class="score_counter"></button>
+            </div>
+            <!-- Wrong Answers -->
+            <div id="falseAnswers" class="score">
+                <p id="falseAnswers_text" class="score_text">False answers:</p>
+                <button id="falseAnswers_counter" class="score_counter"></button>
+            </div>
+        </div>
+        <button id="restartQuizButton" class='restartQuizButton'>Retake Quiz</button>
+    </section>
+
+    <footer>
+        <p id='jokerButtonNote' class='jokerButtonNote'>
+            *This is a joker that resets your current answer so that you can take another guess. It can only be used
+            once, so use its power wisely!
+        </p>
+    </footer>
+    <script type="text/javascript" src="./script.js">
+    </script>
+
+</body>

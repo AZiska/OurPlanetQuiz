@@ -1,0 +1,114 @@
+body {
+    background-image: url('images/ocean.jpg');
+    width: 100%;
+    text-align: center;
+}
+
+h1 {
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 80px;
+    color: #fbfbfb;
+    margin: 30px;
+}
+
+h2 {
+    font-family: 'Chelsea Market', cursive;
+    font-size: 35px;
+    color: #0e2b2d;
+}
+
+.questionContainer {
+    justify-content: center;
+    margin: 0;
+}
+
+.questionText {
+    font-family: 'Chelsea Market', cursive;
+    font-size: 25px;
+    color: #0e2b2d;
+}
+
+.answerContainer {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    width: 600px;
+    margin: auto;
+}
+
+.answerButton {
+    width: 200px;
+    height: 75px;
+    border-radius: 7px;
+    background-color: #fbfbfb;
+    color: #0e2b2d;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 22px;
+    margin: 10px;
+}
+
+.gameButtonContainer {
+    display: inline-flex;
+    justify-content: space-between;
+    width: 350px;
+}
+
+.gameButton, .restartQuizButton {
+    width: 140px;
+    height: 70px;
+    border-radius: 7px;
+    background-color: #163f40;
+    color: #fbfbfb;
+    font-family: 'Chelsea Market', cursive;
+    font-size: 20px;
+    margin-top: 25px;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+.jokerButtonNote {
+    color: #fbfbfb;
+    background-color: #1e4f4c1f;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 20px;
+    margin-bottom: 15px;
+    margin-left: 10px;
+    text-align: left;
+    width: 850px;
+}
+
+.scoreCounterContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.score {
+    margin: 0 40px;
+    margin-bottom: 20px;
+}
+
+.score_text {
+    font-family: 'Chelsea Market', cursive;
+    font-size: 25px;
+    color: #0e2b2d;
+}
+
+.score_counter {
+    width: 100px;
+    height: 60px;
+    border-radius: 7px;
+    color: #0e2b2d;
+    font-family: 'Open Sans Condensed', sans-serif;
+    font-size: 24px;
+}
+
+#correctAnswers_counter {
+    background-color: #8bc34ae6;
+}
+
+#falseAnswers_counter {
+    background-color: #ec1749eb;
+}
