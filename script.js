@@ -195,6 +195,7 @@ const resetButtons = () => {
 
 const startQuiz = () => {
     resetButtons();
+    currentQuestionIndex = 0;
     loadQuestionHtml(questions[currentQuestionIndex]);
     roundAnswered = false;
     jokerUsed = false;
@@ -202,7 +203,6 @@ const startQuiz = () => {
     roundWon = false;
     correctAnswers = 0;
     falseAnswers = 0;
-    currentQuestionIndex = 0;
     correctAnswersButton.innerHTML = correctAnswers;
     falseAnswersButton.innerHTML = falseAnswers;
     jokerButton.style.backgroundColor = '#163f40';
