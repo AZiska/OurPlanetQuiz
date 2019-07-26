@@ -18,6 +18,8 @@ const questions = [
     {
         questionTitle: 'Question 1:',
         questionText: 'What is the largest ocean on our planet?',
+        // TODO Store answers as arrays and allow for any number of answers per question
+        // (with a minimum of two answers)
         answerA: 'A: Indian Ocean',
         answerB: 'B: Atlantic Ocean',
         answerC: 'C: Pacific Ocean',
@@ -62,78 +64,83 @@ const questions = [
 ]
 
 let currentQuestionIndex = 0;
-let buttonClicks = 0;
-let roundAnswered = false;
 let roundWon = false;
 let roundLost = false;
 let jokerUsed = false;
 let correctAnswers = 0;
 let falseAnswers = 0;
 
+const roundAnswered = () => {
+    return roundWon === true || roundLost === true;
+}
 
 buttonA.onclick = () => {
-    if (buttonClicks === 0) {
-        answerCheck(buttonA, 'A')
-    }
+    answerCheck(buttonA, 'A')
 }
 
 buttonB.onclick = () => {
-    if (buttonClicks === 0) {
-        answerCheck(buttonB, 'B')
-    }
+    answerCheck(buttonB, 'B')
 }
 
 buttonC.onclick = () => {
-    if (buttonClicks === 0) {
-        answerCheck(buttonC, 'C')
-    }
+    answerCheck(buttonC, 'C')
 }
 
 buttonD.onclick = () => {
-    if (buttonClicks === 0) {
-        answerCheck(buttonD, 'D')
-    }
+    answerCheck(buttonD, 'D')
 }
 
 
 const answerCheck = (button, userAnswer) => {
+    if (roundAnswered()) {
+        return;
+    }
+
     if (userAnswer === questions[currentQuestionIndex].correctAnswer) {
         button.style.backgroundColor = '#8bc34ae6'; // GREEN COLOR
         roundWon = true;
         correctAnswers++;
-        correctAnswersButton.innerHTML = correctAnswers;
     } else {
         button.style.backgroundColor = '#ec1749eb' // RED COLOR
         roundLost = true;
         falseAnswers++;
-        falseAnswersButton.innerHTML = falseAnswers;
     }
     buttonA.style.cursor = 'initial';
     buttonB.style.cursor = 'initial';
     buttonC.style.cursor = 'initial';
     buttonD.style.cursor = 'initial';
-    nextButton.style.cursor = 'pointer';
-    buttonClicks++
-    roundAnswered = true;
+    toggleButtonStatus(nextButton, 'active')
+}
+
+const toggleButtonStatus = (button, status) => {
+    const buttonToSet = button;
+    if (status === 'active') {
+        buttonToSet.style.cursor = 'pointer';
+        buttonToSet.classList.remove("inactiveButton")
+        buttonToSet.classList.add("activeButton")
+    } else if (status === 'inactive') {
+        buttonToSet.style.cursor = 'initial';
+        buttonToSet.classList.remove("activeButton")
+        buttonToSet.classList.add("inactiveButton")
+    }
 }
 
 jokerButton.onclick = () => {
     if (jokerUsed === false && roundLost === true) {
-        resetButtons()
+        resetButtons();
         falseAnswers--;
-        falseAnswersButton.innerHTML = falseAnswers;
         jokerUsed = true;
-        jokerButton.style.backgroundColor = '#3642429e';
-        jokerButton.innerHTML = 'Try Again* (used)'
+        toggleButtonStatus(jokerButton, 'inactive');
+        jokerButton.innerText = 'Try Again* (used)';
     }
 }
 
 nextButton.onclick = () => {
-    if (currentQuestionIndex === (questions.length - 1) && roundAnswered === true) {
-        showScore()
-    } else if (roundAnswered === true) {
+    if (currentQuestionIndex === (questions.length - 1) && roundAnswered()) {
+        showScore();
+    } else if (roundAnswered()) {
         currentQuestionIndex++;
-        startNextQuestion()
+        startNextQuestion();
     }
 }
 
@@ -145,33 +152,29 @@ const showScore = () => {
     questionContainer.style.display = 'none';
     gameButtonContainer.style.display = 'none';
     scoreContainer.style.display = 'block';
-    restartQuizButton.style.cursor = 'pointer'
     jokerButtonNote.style.display = 'none';
+    correctAnswersButton.innerText = correctAnswers;
+    falseAnswersButton.innerText = falseAnswers;
 }
 
 const loadQuestionHtml = (question) => {
-    questionTitle.innerHTML = question.questionTitle;
-    questionText.innerHTML = question.questionText;
-    buttonA.innerHTML = question.answerA;
-    hideEmptyAnswers(buttonA);
-    buttonB.innerHTML = question.answerB;
-    hideEmptyAnswers(buttonB);
-    buttonC.innerHTML = question.answerC;
-    hideEmptyAnswers(buttonC);
-    buttonD.innerHTML = question.answerD;
-    hideEmptyAnswers(buttonD);
+    questionTitle.innerText = question.questionTitle;
+    questionText.innerText = question.questionText;
+    buttonA.innerText = question.answerA;
+    buttonB.innerText = question.answerB;
+    buttonC.innerText = question.answerC;
+    buttonD.innerText = question.answerD;
 }
 
 const hideEmptyAnswers = (button) => {
-    if(button.innerHTML === 'undefined') {
+    if (button.innerHTML === 'undefined') {
         button.style.display = 'none'
     }
 }
 
 const updateNextButton = () => {
-    nextButton.style.cursor = 'initial';
-    if(currentQuestionIndex === (questions.length - 1)) {
-        nextButton.innerHTML = 'Show final score'
+    if (currentQuestionIndex === (questions.length - 1)) {
+        nextButton.innerText = 'Show final score'
     }
 }
 
@@ -180,7 +183,6 @@ const resetButtons = () => {
     buttonB.style.cursor = 'pointer';
     buttonC.style.cursor = 'pointer';
     buttonD.style.cursor = 'pointer';
-    updateNextButton();
     buttonA.style.backgroundColor = '#fbfbfb';
     buttonB.style.backgroundColor = '#fbfbfb';
     buttonC.style.backgroundColor = '#fbfbfb';
@@ -189,42 +191,36 @@ const resetButtons = () => {
     buttonB.style.display = '';
     buttonC.style.display = '';
     buttonD.style.display = '';
-    buttonClicks = 0;
-    restartQuizButton.style.cursor = 'initial'
+    hideEmptyAnswers(buttonA);
+    hideEmptyAnswers(buttonB);
+    hideEmptyAnswers(buttonC);
+    hideEmptyAnswers(buttonD);
+    toggleButtonStatus(nextButton, 'inactive')
+    roundLost = false;
+    roundWon = false;
 }
 
 const startQuiz = () => {
-    resetButtons();
     currentQuestionIndex = 0;
     loadQuestionHtml(questions[currentQuestionIndex]);
-    roundAnswered = false;
+    resetButtons();
     jokerUsed = false;
-    roundLost = false;
-    roundWon = false;
     correctAnswers = 0;
     falseAnswers = 0;
-    correctAnswersButton.innerHTML = correctAnswers;
-    falseAnswersButton.innerHTML = falseAnswers;
-    jokerButton.style.backgroundColor = '#163f40';
-    jokerButton.innerHTML = 'Try Again*'
+    correctAnswersButton.innerText = correctAnswers;
+    falseAnswersButton.innerText = falseAnswers;
+    jokerButton.innerText = 'Try Again*'
     jokerButtonNote.style.display = ''
-    nextButton.innerHTML = "Next Question"
+    toggleButtonStatus(jokerButton, 'active')
+    nextButton.innerText = "Next Question"
     questionContainer.style.display = 'block';
-    gameButtonContainer.style.display = ''; 
+    gameButtonContainer.style.display = '';
     scoreContainer.style.display = 'none';
 }
 
 const startNextQuestion = () => {
-    resetButtons();
     loadQuestionHtml(questions[currentQuestionIndex]);
-    roundAnswered = false;
-    roundLost = false;
-    roundWon = false;
+    resetButtons();
 }
 
-startQuiz()
-
-
-// what is difference between:
-// questions[currentQuestionIndex] and currentQuestion variable?
-// let currentQuestion = questions[currentQuestionIndex];
+startQuiz();

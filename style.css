@@ -52,15 +52,36 @@ h2 {
     width: 350px;
 }
 
-.gameButton, .restartQuizButton {
+.nextButton, .jokerButton, .restartQuizButton {
     width: 140px;
     height: 70px;
     border-radius: 7px;
-    background-color: #163f40;
     color: #fbfbfb;
     font-family: 'Chelsea Market', cursive;
     font-size: 20px;
     margin-top: 25px;
+}
+
+.nextButton {
+    background-color: #163f40;
+}
+
+.restartQuizButton {
+    background-color: #163f40;
+    cursor: pointer;
+}
+
+.jokerButton {
+    background-color: #163f40;
+}
+
+
+.activeButton {
+    background-color: #163f40;
+}
+
+.inactiveButton {
+    background-color: #3642429e;
 }
 
 footer {
