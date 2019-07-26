@@ -1,7 +1,3 @@
-const buttonA = document.getElementById('buttonA');
-const buttonB = document.getElementById('buttonB');
-const buttonC = document.getElementById('buttonC');
-const buttonD = document.getElementById('buttonD');
 const questionContainer = document.getElementById('questionContainer');
 const questionTitle = document.getElementById('questionTitle');
 const questionText = document.getElementById('questionText');
@@ -13,53 +9,38 @@ const correctAnswersButton = document.getElementById('correctAnswers_counter');
 const falseAnswersButton = document.getElementById('falseAnswers_counter');
 const restartQuizButton = document.getElementById('restartQuizButton');
 const gameButtonContainer = document.getElementById('gameButtonContainer');
+const answerContainer = document.getElementById('answerContainer');
 
 const questions = [
     {
         questionTitle: 'Question 1:',
         questionText: 'What is the largest ocean on our planet?',
-        // TODO Store answers as arrays and allow for any number of answers per question
-        // (with a minimum of two answers)
-        answerA: 'A: Indian Ocean',
-        answerB: 'B: Atlantic Ocean',
-        answerC: 'C: Pacific Ocean',
-        answerD: 'D: Antarctic Ocean',
-        correctAnswer: 'C',
-
+        answers: ['Indian Ocean', 'Atlanctic Ocean', 'Pacific Ocean', 'Antarctic Ocean'],
+        correctAnswerIndex: 2
     },
     {
         questionTitle: 'Question 2:',
         questionText: 'How many legs do insects have?',
-        answerA: 'A: 4',
-        answerB: 'B: 6',
-        answerC: 'C: 8',
-        answerD: 'D: more than 10',
-        correctAnswer: 'B'
+        answers: ['2 like humans', '4', '6', '8', 'more than 10'],
+        correctAnswerIndex: 2
     },
     {
         questionTitle: 'Question 3:',
         questionText: 'What is the smallest continent?',
-        answerA: 'A: Africa',
-        answerB: 'B: Europe',
-        answerC: 'C: South America',
-        answerD: 'D: Australia',
-        correctAnswer: 'D'
+        answers: ['Africa', 'Europe', 'South America', 'Australia'],
+        correctAnswerIndex: 3
     },
     {
         questionTitle: 'Question 4:',
         questionText: 'When standing on the equator you weigh less than when standing on one of the poles.',
-        answerA: 'A: true',
-        answerB: 'B: false',
-        correctAnswer: 'A'
+        answers: ['true', 'false'],
+        correctAnswerIndex: 0
     },
     {
         questionTitle: 'Question 5:',
         questionText: 'How old is the Earth?',
-        answerA: 'A: 4.54 million years',
-        answerB: 'B: 8.54 million years',
-        answerC: 'C: 4.54 billion years',
-        answerD: 'D: 8.54 billion years',
-        correctAnswer: 'C'
+        answers: ['4.54 million years', '8.54 million years', '4.54 billion years', '8.54 billion years'],
+        correctAnswerIndex: 2
     },
 ]
 
@@ -74,29 +55,12 @@ const roundAnswered = () => {
     return roundWon === true || roundLost === true;
 }
 
-buttonA.onclick = () => {
-    answerCheck(buttonA, 'A')
-}
-
-buttonB.onclick = () => {
-    answerCheck(buttonB, 'B')
-}
-
-buttonC.onclick = () => {
-    answerCheck(buttonC, 'C')
-}
-
-buttonD.onclick = () => {
-    answerCheck(buttonD, 'D')
-}
-
-
 const answerCheck = (button, userAnswer) => {
     if (roundAnswered()) {
         return;
     }
 
-    if (userAnswer === questions[currentQuestionIndex].correctAnswer) {
+    if (userAnswer === questions[currentQuestionIndex].correctAnswerIndex) {
         button.style.backgroundColor = '#8bc34ae6'; // GREEN COLOR
         roundWon = true;
         correctAnswers++;
@@ -105,11 +69,8 @@ const answerCheck = (button, userAnswer) => {
         roundLost = true;
         falseAnswers++;
     }
-    
-    buttonA.style.cursor = 'initial';
-    buttonB.style.cursor = 'initial';
-    buttonC.style.cursor = 'initial';
-    buttonD.style.cursor = 'initial';
+
+    setButtonCursor('initial')
     toggleButtonStatus(nextButton, 'active');
 
     if (jokerUsed === false && roundLost === true) {
@@ -138,6 +99,7 @@ jokerButton.onclick = () => {
         toggleButtonStatus(jokerButton, 'inactive');
         jokerButton.innerText = 'Try Again* (used)';
     }
+    setButtonCursor('pointer')
 }
 
 nextButton.onclick = () => {
@@ -162,18 +124,27 @@ const showScore = () => {
     falseAnswersButton.innerText = falseAnswers;
 }
 
-const loadQuestionHtml = (question) => {
-    questionTitle.innerText = question.questionTitle;
-    questionText.innerText = question.questionText;
-    buttonA.innerText = question.answerA;
-    buttonB.innerText = question.answerB;
-    buttonC.innerText = question.answerC;
-    buttonD.innerText = question.answerD;
+const questionIndexToLetter = (questionIndex) => {
+    return String.fromCharCode(questionIndex + 65);
 }
 
-const hideEmptyAnswers = (button) => {
-    if (button.innerHTML === 'undefined') {
-        button.style.display = 'none'
+const loadQuestion = () => {
+    const currentQuestion = questions[currentQuestionIndex]
+
+    questionTitle.innerText = currentQuestion.questionTitle;
+    questionText.innerText = currentQuestion.questionText;
+
+    const answersToLoad = currentQuestion.answers
+
+    answerContainer.innerHTML = '';
+    for (let i = 0; i < answersToLoad.length; i++) {
+        const currentLetter = questionIndexToLetter(i)
+        const currentAnswer = answersToLoad[i]
+        const answerButton = document.createElement('button');
+        answerButton.innerText = `${currentLetter}: ${currentAnswer}`;
+        answerButton.classList.add('answerButton');
+        answerButton.onclick = () => { answerCheck(answerButton, i) };
+        answerContainer.appendChild(answerButton);
     }
 }
 
@@ -183,23 +154,20 @@ const updateNextButton = () => {
     }
 }
 
+const setButtonCursor = (cursorInput) => {
+    const buttons = answerContainer.children;
+    for (let i = 0; i < buttons.length; i++) {
+        if (cursorInput === 'initial') {
+            buttons[i].style.cursor = cursorInput
+        } else if (cursorInput === 'pointer') {
+            buttons[i].style.cursor = cursorInput
+            buttons[i].style.backgroundColor = '#fbfbfb'
+        }
+    }
+}
+
 const resetButtons = () => {
-    buttonA.style.cursor = 'pointer';
-    buttonB.style.cursor = 'pointer';
-    buttonC.style.cursor = 'pointer';
-    buttonD.style.cursor = 'pointer';
-    buttonA.style.backgroundColor = '#fbfbfb';
-    buttonB.style.backgroundColor = '#fbfbfb';
-    buttonC.style.backgroundColor = '#fbfbfb';
-    buttonD.style.backgroundColor = '#fbfbfb';
-    buttonA.style.display = '';
-    buttonB.style.display = '';
-    buttonC.style.display = '';
-    buttonD.style.display = '';
-    hideEmptyAnswers(buttonA);
-    hideEmptyAnswers(buttonB);
-    hideEmptyAnswers(buttonC);
-    hideEmptyAnswers(buttonD);
+    setButtonCursor('pointer')
     toggleButtonStatus(jokerButton, 'inactive')
     toggleButtonStatus(nextButton, 'inactive')
     roundLost = false;
@@ -208,7 +176,7 @@ const resetButtons = () => {
 
 const startQuiz = () => {
     currentQuestionIndex = 0;
-    loadQuestionHtml(questions[currentQuestionIndex]);
+    loadQuestion();
     resetButtons();
     jokerUsed = false;
     correctAnswers = 0;
@@ -224,7 +192,7 @@ const startQuiz = () => {
 }
 
 const startNextQuestion = () => {
-    loadQuestionHtml(questions[currentQuestionIndex]);
+    loadQuestion();
     resetButtons();
 }
 

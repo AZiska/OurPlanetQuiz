@@ -8,13 +8,14 @@ h1 {
     font-family: 'Fredericka the Great', cursive;
     font-size: 80px;
     color: #fbfbfb;
-    margin: 30px;
+    margin: 20px;
 }
 
 h2 {
     font-family: 'Chelsea Market', cursive;
     font-size: 35px;
     color: #0e2b2d;
+    margin: 20px;
 }
 
 .questionContainer {
@@ -26,6 +27,7 @@ h2 {
     font-family: 'Chelsea Market', cursive;
     font-size: 25px;
     color: #0e2b2d;
+    margin: 15px;
 }
 
 .answerContainer {
@@ -44,6 +46,7 @@ h2 {
     font-family: 'Open Sans Condensed', sans-serif;
     font-size: 22px;
     margin: 10px;
+    cursor: pointer;
 }
 
 .gameButtonContainer {
