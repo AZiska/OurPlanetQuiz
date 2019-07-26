@@ -105,11 +105,16 @@ const answerCheck = (button, userAnswer) => {
         roundLost = true;
         falseAnswers++;
     }
+    
     buttonA.style.cursor = 'initial';
     buttonB.style.cursor = 'initial';
     buttonC.style.cursor = 'initial';
     buttonD.style.cursor = 'initial';
-    toggleButtonStatus(nextButton, 'active')
+    toggleButtonStatus(nextButton, 'active');
+
+    if (jokerUsed === false && roundLost === true) {
+        toggleButtonStatus(jokerButton, 'active');
+    }
 }
 
 const toggleButtonStatus = (button, status) => {
@@ -195,6 +200,7 @@ const resetButtons = () => {
     hideEmptyAnswers(buttonB);
     hideEmptyAnswers(buttonC);
     hideEmptyAnswers(buttonD);
+    toggleButtonStatus(jokerButton, 'inactive')
     toggleButtonStatus(nextButton, 'inactive')
     roundLost = false;
     roundWon = false;
@@ -211,7 +217,6 @@ const startQuiz = () => {
     falseAnswersButton.innerText = falseAnswers;
     jokerButton.innerText = 'Try Again*'
     jokerButtonNote.style.display = ''
-    toggleButtonStatus(jokerButton, 'active')
     nextButton.innerText = "Next Question"
     questionContainer.style.display = 'block';
     gameButtonContainer.style.display = '';
