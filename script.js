@@ -73,7 +73,7 @@ const answerCheck = (button, userAnswer) => {
     setButtonCursor('initial')
     toggleButtonStatus(nextButton, 'active');
 
-    if (jokerUsed === false && roundLost === true) {
+    if (!jokerUsed && roundLost === true) {
         toggleButtonStatus(jokerButton, 'active');
     }
 }
@@ -92,7 +92,9 @@ const toggleButtonStatus = (button, status) => {
 }
 
 jokerButton.onclick = () => {
-    if (jokerUsed === false && roundLost === true) {
+    if (jokerUsed){
+        return
+    } else if (!jokerUsed && roundLost === true) {
         resetButtons();
         falseAnswers--;
         jokerUsed = true;
